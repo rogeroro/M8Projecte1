@@ -1,0 +1,74 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: black;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  height: 100vh;
+  /* border: 1px solid black; */
+}
+
+form {
+  position: relative;
+  top: 20%;
+
+  /* border: 1px solid red; */
+}
+
+/* header */
+
+header {
+  display: flex;
+  /* justify-content: space-around; */
+  align-items: center;
+  padding: 1.5rem 0.5rem;
+  border-bottom: 1px solid rgba(211, 211, 211, 0.5);
+  background-color: rgb(255, 250, 233);
+}
+
+header span {
+  font-size: 16px;
+  margin-left: 1vh;
+}
+
+.userIcons {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 5%;
+}
+
+.userIcons span, h3{
+  margin: 0 0.5vh;
+}
+
+header h3 {
+  margin-bottom: 0px !important;
+}
+
+header a{
+  text-decoration: none;
+}
+
+.icon-exit {
+  margin-top: 0.8vh !important;
+}
+
+.btnPackGroup {
+  padding-top: 3vh;
+}
+
+.btnPack {
+  background-color: #cccccc !important;
+  margin-top: 1vh;
+}
+
+
+/* fer un div amb   transition: width 0.5 al clicar el boto per afefr o midificar paquet */
+/* GEADER */
