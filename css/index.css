@@ -70,5 +70,35 @@ header a{
 }
 
 
+.effect{
+
+  padding-top: 3vh;
+  visibility: hidden;
+
+  /* border: 1px solid red; */
+  height: 1vh;
+  transition: all 2s ease;
+}
+
+.effect-active{
+  visibility: visible;
+  overflow: hidden;
+  animation: 2s delay-overflow;
+  height: 70vh;
+
+}
+
+
+.input-group{
+  width: 92% !important;
+  padding-left: 4vh;
+
+}
+
+/* 
+.effect:hover{
+  height: 70vh;
+} */
+
 /* fer un div amb   transition: width 0.5 al clicar el boto per afefr o midificar paquet */
 /* GEADER */
