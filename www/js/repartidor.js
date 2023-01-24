@@ -1,16 +1,18 @@
 var app = {
     init: function () {
         app.obtenirPosicio();
+
+        selectors = document.querySelectorAll('.selector-entrega');
+        selectors.forEach(selector => {
+          selector.addEventListener('change', app.activarImatge);
+        });
+
+        document.addEventListener('click', app.ferImatgeEntrega);
     },
   
     obtenirPosicio: function () {
-      var dades = document.getElementById("dades");
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          dades.innerHTML =
-            `<p>Latitud: ${position.coords.latitude}</p>
-                            <p>Longitud: ${position.coords.longitude}</p>
-                            <p>Altitud: ${position.coords.altitude}</p>`;
   
           var map = L.map('mapa').setView([position.coords.latitude, position.coords.longitude], 18);
   
@@ -21,18 +23,28 @@ var app = {
           var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
         },
         (error) => {
-          dades.innerHTML =
-            `<p>Codi: ${error.code}</p>
-                          <p>Error: ${error.message}</p>`;
         },
         { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
-  
-  
     },
-  };
-  
+
+    activarImatge: function (e) {
+      if (e.target.value == 2) {
+        e.target.nextElementSibling.classList.remove('hidden');
+      } else {
+        e.target.nextElementSibling.classList.add('hidden');        
+      }
+    },
+
+    ferImatgeEntrega: function (e) {
+      if (e.target.classList.contains('icon-camera')) {
+        console.log('foto [^*]');
+      }
+      
+    }
+    
+  }; 
   
   // document.addEventListener('deviceready', app.init, false);
   
-  document.addEventListener("DOMContentLoaded", app.init);
+document.addEventListener("DOMContentLoaded", app.init);
   
