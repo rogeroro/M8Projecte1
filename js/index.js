@@ -1,5 +1,8 @@
 let app = {
   init: function () {
+    document.getElementById("loginButton").addEventListener("click", app.comprovarLogin);
+
+    console.log(document.getElementById("loginButton"));
     let usuaris = [
       {
         login: "Gestor",
@@ -8,19 +11,26 @@ let app = {
       {
         login: "Oficina",
         passworld: "Oficina",
-      }
+      },
     ];
-
     localStorage.setItem("usuaris", JSON.stringify(usuaris));
 
-    var storedNames = JSON.parse(localStorage.getItem("names"));
+  },
 
-    console.log(storedNames)
+  comprovarLogin: function () {
+    var log = document.getElementById("inputLogin").value;
+    var pass = document.getElementById("inputPassword").value;
+    var users = JSON.parse(localStorage.getItem("usuaris"));
 
-    let obj = storedNames.find(o => o.login === 'Gestor');
-    console.log(obj)
-
-},
+    let obj = users.find((o) => o.login === log);
+    if(obj){
+      if(obj.passworld == pass){
+        if(log == "Gestor"){
+          window.location.replace("iniciOficina.html");
+        }
+      }
+    }
+  },
 };
 
 document.addEventListener("DOMContentLoaded", app.init());
