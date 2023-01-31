@@ -109,5 +109,10 @@ header a {
   display: none;
 }
 
+#imatge {
+  height: 100%;
+  width: 100%;
+}
+
 /* fer un div amb   transition: width 0.5 al clicar el boto per afefr o midificar paquet */
 /* GEADER */

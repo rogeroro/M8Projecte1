@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/icons.css">
+    <!-- <link rel="stylesheet" href ="css/leaflet.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <title>Amazon</title>
+</head>
+
+<body class="text-center">
+
+    <header>
+        <a href="index.html" target="_parent"> <span class="icon-keyboard_arrow_left"></span></a>
+        <div class="userIcons">
+            <span class="icon-user"></span>
+            <h3>Nazar Yakovyna | Gestor</h3>
+            <span class="icon-exit"></span>
+        </div>
+
+    </header>
+
+    <main>
+        <!-- <div id="mapa">
+        </div> -->
+
+        <img src="" alt="" id="imatge">
+        
+
+        <button type="button" class="llistar-paquets" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <span class="icon-package"></span>
+        </button>
+
+        <div class="modal llista-paquets fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Llista paquets</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-grid gap-4 px-4">
+                            <div class="row">
+                                <p class="col">Paquet 1</p>
+                                <select class="form-select col selector-entrega">
+                                    <option value="1">No entregat</option>
+                                    <option value="2">Entregat</option>
+                                </select>
+                                <span class="icon-camera col-2 hidden"></span>
+                            </div>
+                            <div class="row">
+                                <p class="col">Paquet 2</p>
+                                <select class="form-select col selector-entrega">
+                                    <option value="1">No entregat</option>
+                                    <option value="2">Entregat</option>
+                                </select>
+                                <span class="icon-camera col-2 hidden"></span>
+                            </div>
+                            <div class="row">
+                                <p class="col">Paquet 3</p>
+                                <select class="form-select col selector-entrega">
+                                    <option value="1">No entregat</option>
+                                    <option value="2">Entregat</option>
+                                </select>
+                                <span class="icon-camera col-2 hidden"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                        <button type="button" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
+<script src="cordova.js"></script>
+<script src="js/repartidor.js"></script>
