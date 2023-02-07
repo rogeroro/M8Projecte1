@@ -11,7 +11,27 @@ var app = {
   },
 
   obtenirPosicio: function () {
-    navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.watchPosition(
+      (position) => {
+        console.log(position);
+
+        if (marker !== null) {
+          map.removeLayer(marker);
+        }
+        map.setView([position.coords.latitude, position.coords.longitude], 18);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        marker = L.marker([position.coords.latitude, position.coords.longitude],{icon: iconRepartidor}).addTo(map);
+        marker.bindPopup("<p>Estic aqui!</p>");
+      },
+      (error) => {
+      },
+      {enableHighAccuracy: true});
+
+    /*navigator.geolocation.getCurrentPosition(
       (position) => {
 
         var map = L.map('mapa').setView([position.coords.latitude, position.coords.longitude], 18);
@@ -24,7 +44,7 @@ var app = {
       },
       (error) => {
       },
-      { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
+      { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });*/
   },
 
   activarImatge: function (e) {
@@ -46,13 +66,15 @@ var app = {
       };
 
       navigator.camera.getPicture((imageURI) => {
-        var thisResult = JSON.parse(imageURI); 
-        var metadata = JSON.parse(thisResult.json_metadata);
+        Photos.photos( 
+          function(imageURI) {
+              console.log(imageURI);
+          },
+          function(error) {
+              console.error("Error: " + error);
+          });
 
-        var image = document.getElementById('imatge');
-        image.src = thisResult.filename;
-        console.log(metadata);
-        console.log('Lat: ' + metadata.gpsLatitude + ' Lon: ' + metadata.gpsLongitude);
+
 
         /*window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
  
@@ -79,6 +101,25 @@ var app = {
   },
 
 };
+
+var iconPaquet = L.icon({
+  iconUrl: '../img/markerPaquet.png',
+
+  iconSize:     [40, 40],
+  iconAnchor:   [22, 94],
+  popupAnchor:  [-3, -76] 
+});
+
+var iconRepartidor = L.icon({
+  iconUrl: '../img/markerRepartidor.png',
+
+  iconSize:     [45, 55],
+  iconAnchor:   [22, 94],
+  popupAnchor:  [-3, -76]
+});
+
+var map = L.map('mapa');
+var marker = null;
 
 document.addEventListener('deviceready', app.init, false);
 
