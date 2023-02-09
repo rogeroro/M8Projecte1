@@ -1,7 +1,7 @@
 let app = {
   init: function () {
     document.getElementById("loginButton").addEventListener("click", app.comprovarLogin);
-
+    // window.location.replace("iniciOficina.html");
     console.log(document.getElementById("loginButton"));
     let usuaris = [
       {
@@ -14,7 +14,6 @@ let app = {
       },
     ];
     localStorage.setItem("usuaris", JSON.stringify(usuaris));
-
   },
 
   comprovarLogin: function () {
@@ -25,12 +24,14 @@ let app = {
     let obj = users.find((o) => o.login === log);
     if(obj){
       if(obj.passworld == pass){
-        if(log == "Gestor"){
+        if(log == "Oficina"){
           window.location.replace("iniciOficina.html");
+        }else if(log == "Oficina"){
+          window.location.replace("iniciRepartidor.html");
         }
       }
     }
   },
 };
 
-document.addEventListener("DOMContentLoaded", app.init());
+document.addEventListener("DOMContentLoaded", app.init);

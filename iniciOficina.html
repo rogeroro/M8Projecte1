@@ -10,12 +10,11 @@
 
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/icons.css">
+
     <!-- <link rel="stylesheet" href ="css/leaflet.css"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+
     <title>Amazon</title>
 </head>
 
@@ -26,49 +25,47 @@
 
         <a href="" target="_parent"> <span class="icon-keyboard_arrow_left"></span></a>
         <div class="userIcons">
-            <h3> Gestor</h3>
-            <a href ="/index.html"><span class="icon-exit"></span></a>
+            <h1> Oficina</h1>
+            <a href="index.html" class="icon-exit" id></a>
         </div>
 
     </header>
 
     <main class="container">
         <div class="d-grid gap-2 col-10 mx-auto btnPackGroup">
-            <button class="btn btnPack"  id="addPaq" type="button">Introduir paquet</button>
+            <button class="btn btnPack" id="addPaq" type="button">Introduir paquet</button>
             <button class="btn btnPack" id="editPaq" type="button">Editar paquet</button>
         </div>
 
-
-
         <div class="effect" id="effect">
 
-            <div class="input-group mb-3">
+            <div class="input-group col-10 mx-auto">
                 <input type="text" class="form-control" id="codi" placeholder="Codi" aria-describedby="basic-addon2">
                 <div class="input-group-append">
                     <span class="input-group-text icon-camera" id="basic-addon2"></span>
                 </div>
             </div>
-            <div class="input-group mb-3">
+            <div class="input-group col-10 mx-auto">
                 <input type="text" class="form-control" id="nom" placeholder="Nom" aria-describedby="basic-addon2">
             </div>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" id="adress" placeholder="Domicili" aria-describedby="basic-addon2">
+            <div class="input-group col-10 mx-auto">
+                <input type="text" class="form-control" id="adress" placeholder="Domicili"
+                    aria-describedby="basic-addon2">
             </div>
+
             <button type="button" id="gestioPaquet" class="btn btn-success">Afegir Paquet</button>
+            <button type="button" id="eliminarPaquet" class="btn btn-danger">Eliminar paquet</button>
+
         </div>
 
     </main>
-
-
+    <script src="cordova.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script src="js/iniciOficina.js"></script>
+    <script src="js/sweetAlert.js"></script>
+
 </body>
 
 </html>
-
-<script>
-    function mostrarDiv() {
-        document.getElementById('effect').classList.add("effect-active");
-    }
-</script>
 
 <!-- Remove-Item -path .\platforms\android -recurse; cordova platform add android; cordova run android --device -->

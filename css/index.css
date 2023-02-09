@@ -11,17 +11,15 @@ html {
 
 body {
   height: 100vh;
-  /* border: 1px solid black; */
 }
 
-form {
-  position: relative;
-  top: 20%;
-
-  /* border: 1px solid red; */
+.form-signin {
+  padding-top: 5vh;
 }
 
-/* header */
+.passw {
+  padding-top: 1vh;
+}
 
 header {
   display: flex;
@@ -31,9 +29,12 @@ header {
   border-bottom: 1px solid rgba(211, 211, 211, 0.5);
   background-color: rgb(255, 250, 233);
 }
+/* header h3{
+
+} */
 
 header span {
-  font-size: 16px;
+  /* font-size: 100%; */
   margin-left: 1vh;
 }
 
@@ -44,15 +45,23 @@ header span {
   right: 5%;
 }
 
-.userIcons span, h3{
+.userIcons span,
+h3 {
+  /* margin: 0 0.5vh; */
+}
+
+.userIcons a {
   margin: 0 0.5vh;
+  text-decoration: none !important;
+  color: black;
+  font-size: 16px;
 }
 
 header h3 {
   margin-bottom: 0px !important;
 }
 
-header a{
+header a {
   text-decoration: none;
 }
 
@@ -65,40 +74,29 @@ header a{
 }
 
 .btnPack {
+  font-size: 1.5rem !important;
   background-color: #cccccc !important;
   margin-top: 1vh;
 }
+.form-control,
+.icon-camera,
+.btn-success,
+.btn-danger {
+  font-size: 1.5rem !important;
+}
 
-
-.effect{
-
+.effect {
   padding-top: 3vh;
-  visibility: hidden;
-
-  /* border: 1px solid red; */
-  height: 1vh;
-  transition: all 2s ease;
-}
-
-.effect-active{
-  visibility: visible;
   overflow: hidden;
-  animation: 2s delay-overflow;
   height: 70vh;
-
+  display: none;
 }
 
-.input-group{
+.icon-keyboard_arrow_left {
+  font-size: 30px !important;
+}
+
+.input-group {
   width: 92% !important;
-  padding-left: 4vh;
-
+  padding: 5px 0;
 }
-
-
-/* 
-.effect:hover{
-  height: 70vh;
-} */
-
-/* fer un div amb   transition: width 0.5 al clicar el boto per afefr o midificar paquet */
-/* GEADER */
