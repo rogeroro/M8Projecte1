@@ -2,6 +2,8 @@ var app = {
   init: function () {
     app.obtenirPosicio();
 
+    app.afegirMarkersPaquets();
+
     selectors = document.querySelectorAll('.selector-entrega');
     selectors.forEach(selector => {
       selector.addEventListener('change', app.activarImatge);
@@ -30,21 +32,6 @@ var app = {
       (error) => {
       },
       {enableHighAccuracy: true});
-
-    /*navigator.geolocation.getCurrentPosition(
-      (position) => {
-
-        var map = L.map('mapa').setView([position.coords.latitude, position.coords.longitude], 18);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-        var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-      },
-      (error) => {
-      },
-      { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });*/
   },
 
   activarImatge: function (e) {
@@ -99,6 +86,10 @@ var app = {
       }, cameraOptions);
     }
   },
+
+  afegirMarkersPaquets: function() {
+
+  }
 
 };
 
