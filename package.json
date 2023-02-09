@@ -18,7 +18,8 @@
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-file": "^7.0.0",
     "cordova-plugin-geolocation": "^4.1.0",
-    "cordova-plugin-photos": "^1.0.9"
+    "cordova-plugin-photos": "^1.0.9",
+    "phonegap-plugin-barcodescanner": "^8.1.0"
   },
   "cordova": {
     "plugins": {
@@ -29,6 +30,9 @@
       "cordova-plugin-photos": {},
       "cordova-plugin-camera": {
         "ANDROIDX_CORE_VERSION": "1.6.+"
+      },
+      "phonegap-plugin-barcodescanner": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
       }
     },
     "platforms": [

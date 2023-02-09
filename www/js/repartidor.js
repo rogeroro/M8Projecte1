@@ -1,8 +1,7 @@
 var app = {
   init: function () {
+    app.llistarPaquets();
     app.obtenirPosicio();
-
-    app.afegirMarkersPaquets();
 
     selectors = document.querySelectorAll('.selector-entrega');
     selectors.forEach(selector => {
@@ -15,8 +14,6 @@ var app = {
   obtenirPosicio: function () {
     navigator.geolocation.watchPosition(
       (position) => {
-        console.log(position);
-
         if (marker !== null) {
           map.removeLayer(marker);
         }
@@ -26,12 +23,12 @@ var app = {
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-        marker = L.marker([position.coords.latitude, position.coords.longitude],{icon: iconRepartidor}).addTo(map);
-        marker.bindPopup("<p>Estic aqui!</p>");
+        marker = L.marker([position.coords.latitude, position.coords.longitude], { icon: iconRepartidor }).addTo(map);
+        marker.bindPopup("<h3>Estic aqui!</h3>");
       },
       (error) => {
       },
-      {enableHighAccuracy: true});
+      { enableHighAccuracy: true });
   },
 
   activarImatge: function (e) {
@@ -53,12 +50,12 @@ var app = {
       };
 
       navigator.camera.getPicture((imageURI) => {
-        Photos.photos( 
-          function(imageURI) {
-              console.log(imageURI);
+        Photos.photos(
+          function (imageURI) {
+            console.log(imageURI);
           },
-          function(error) {
-              console.error("Error: " + error);
+          function (error) {
+            console.error("Error: " + error);
           });
 
 
@@ -87,33 +84,58 @@ var app = {
     }
   },
 
-  afegirMarkersPaquets: function() {
+  llistarPaquets: function () {
+    let divPaquets = document.querySelector('.llista-paquets-div');
 
-  }
+    paquets.forEach(p => {
+      let paquet = JSON.parse(p);
+      let selected = "";
+      let hidden = "";
+      if (paquet.estat == "") selected = "selected"; 
+      if (paquet.estat != "") hidden = "hidden"; 
+
+      divPaquets.innerHTML += `<div class="row">
+                                <p class="col">${paquet.nom}</p>
+                                <select class="form-select col selector-entrega">
+                                    <option value="1">No entregat</option>
+                                    <option value="2" ${selected}>Entregat</option>
+                                </select>
+                                <span class="icon-camera col-2 ${hidden}"></span>
+                            </div>`;
+      app.afegirMarkerPaquet(paquet);
+    });
+  },
+
+  afegirMarkerPaquet: function (paquet) {
+    markerPaquet = L.marker(["41.639565", "1.139697"], { icon: iconPaquet }).addTo(map);
+    markerPaquet.bindPopup(`<h3>${paquet.codi}</h3><p>${paquet.nom}</p>`);
+  },
 
 };
 
 var iconPaquet = L.icon({
   iconUrl: '../img/markerPaquet.png',
 
-  iconSize:     [40, 40],
-  iconAnchor:   [22, 94],
-  popupAnchor:  [-3, -76] 
+  iconSize: [40, 40],
+  iconAnchor: [22, 94],
+  popupAnchor: [-3, -76]
 });
 
 var iconRepartidor = L.icon({
   iconUrl: '../img/markerRepartidor.png',
 
-  iconSize:     [45, 55],
-  iconAnchor:   [22, 94],
-  popupAnchor:  [-3, -76]
+  iconSize: [45, 55],
+  iconAnchor: [22, 94],
+  popupAnchor: [-3, -76]
 });
 
 var map = L.map('mapa');
 var marker = null;
 
-document.addEventListener('deviceready', app.init, false);
+var paquets = JSON.parse(localStorage.getItem("paquets"));
 
-// document.addEventListener("DOMContentLoaded", app.init);
+// document.addEventListener('deviceready', app.init, false);
+
+document.addEventListener("DOMContentLoaded", app.init);
 
 
