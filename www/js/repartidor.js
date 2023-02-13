@@ -1,14 +1,27 @@
 var app = {
+  tempURL: null,
+  permFolder: null,
+  permFolderNativeURL: null,
+  oldFile: null,
+  permFile: null,
+
   init: function () {
     app.llistarPaquets();
-    app.obtenirPosicio();
+    //app.obtenirPosicio();
+
+    //app.getPermFolder();
 
     selectors = document.querySelectorAll('.selector-entrega');
     selectors.forEach(selector => {
       selector.addEventListener('change', app.activarImatge);
     });
 
+    document.getElementById('btnGuardar').addEventListener('click', app.guardarCanvis);
+
     document.addEventListener('click', app.ferImatgeEntrega);
+  },
+  guardarCanvis: function () {
+    localStorage.setItem('paquets', JSON.stringify(paquets));
   },
 
   obtenirPosicio: function () {
@@ -30,8 +43,20 @@ var app = {
       },
       { enableHighAccuracy: true });
   },
+  getPaquetById: async function (codiPaquet) {
+    return new Promise((resolve) => {
+      paquets.forEach(p => {
+        p = JSON.parse(p);
+        if (p.codi == codiPaquet) {
+          resolve(p)
+        }
+      });
+    })
+  },
 
-  activarImatge: function (e) {
+  activarImatge: async function (e) {
+    let paquetSeleccionat = e.target.closest('div').id;
+    console.log(await app.getPaquetById(paquetSeleccionat));
     if (e.target.value == 2) {
       e.target.nextElementSibling.classList.remove('hidden');
     } else {
@@ -40,6 +65,14 @@ var app = {
   },
   ferImatgeEntrega: function (e) {
     if (e.target.classList.contains('icon-camera')) {
+      codiPaquet = e.target.closest("div").id;
+      paquets.forEach(p => {
+        p = JSON.parse(p);
+        if (p.codi == codiPaquet) {
+          paquet = p;
+        }
+      });
+
       cameraOptions = {
         quality: 100,
         destinationType: Camera.DestinationType.FILE_URI,
@@ -50,38 +83,49 @@ var app = {
       };
 
       navigator.camera.getPicture((imageURI) => {
-        Photos.photos(
-          function (imageURI) {
-            console.log(imageURI);
-          },
-          function (error) {
-            console.error("Error: " + error);
-          });
-
-
-
-        /*window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
- 
-           console.log('file system open: ' + fs.name); 
-           fs.root.getFile("newPersistentFile.txt", { create: true, exclusive: false }, function (fileEntry) {
-       
-               console.log("fileEntry is file?" + fileEntry.isFile.toString());
-               // fileEntry.name == 'someFile.txt'
-               // fileEntry.fullPath == '/someFile.txt'
-               // writeFile(fileEntry, null);
-       
-           }, (onErrorCreateFile)=> {
-             console.log('error: ' + onErrorCreateFile);
-           });
-       
-       }, (onErrorLoadFs)=> {
-         console.log('ERROR: ' + onErrorLoadFs);
-       });*/
+        app.tempURL = imageURI;
+        app.guardarImatge(paquet);
 
       }, (message) => {
         console.log('Error: ' + message);
       }, cameraOptions);
     }
+  },
+  guardarImatge: function (paquet) {
+    let fileName = paquet.codi + ".jpg";
+
+    resolveLocalFileSystemURL(
+      app.tempURL,
+      entry => {
+        console.log("copy" + entry.name + "to" + app.permFolderNativeURL + fileName);
+        entry.copyTo(
+          app.permFolder,
+          fileName,
+          permFile => {
+            let path = permFile.nativeURL;
+            paquet.urlImg = path;
+
+            let i = 0;
+            paquets.forEach(p => {
+              p = JSON.parse(p);
+              if (p.codi === paquet.codi) {
+                paquets[i] = JSON.stringify(paquet);
+              }
+              i++;
+            });
+            localStorage.setItem("paquets", JSON.stringify(paquets));
+
+            app.permFile = permFile;
+          },
+          fileErr => {
+            console.warn("Copy error", fileErr);
+          }
+        );
+      },
+      err => {
+        console.error(err);
+      }
+    );
   },
 
   llistarPaquets: function () {
@@ -89,12 +133,13 @@ var app = {
 
     paquets.forEach(p => {
       let paquet = JSON.parse(p);
-      let selected = "";
-      let hidden = "";
-      if (paquet.estat == "") selected = "selected"; 
-      if (paquet.estat != "") hidden = "hidden"; 
 
-      divPaquets.innerHTML += `<div class="row">
+      let selected = "";
+      let hidden = "hidden";
+      if (paquet.estat == "entregat") selected = "selected";
+      if (paquet.estat == "entregat") hidden = "";
+
+      divPaquets.innerHTML += `<div class="row" id=${paquet.codi}>
                                 <p class="col">${paquet.nom}</p>
                                 <select class="form-select col selector-entrega">
                                     <option value="1">No entregat</option>
@@ -102,20 +147,42 @@ var app = {
                                 </select>
                                 <span class="icon-camera col-2 ${hidden}"></span>
                             </div>`;
-      app.afegirMarkerPaquet(paquet);
+      //app.afegirMarkerPaquet(paquet);
     });
   },
 
   afegirMarkerPaquet: function (paquet) {
-    markerPaquet = L.marker(["41.639565", "1.139697"], { icon: iconPaquet }).addTo(map);
+    let coordenades = paquet.coordenades.split('/');
+    markerPaquet = L.marker([coordenades[0], coordenades[1]], { icon: iconPaquet }).addTo(map);
     markerPaquet.bindPopup(`<h3>${paquet.codi}</h3><p>${paquet.nom}</p>`);
+  },
+  getPermFolder: function () {
+    let path = cordova.file.dataDirectory;
+    resolveLocalFileSystemURL(
+      path,
+      dirEntry => {
+        dirEntry.getDirectory(
+          "images",
+          { create: true },
+          permDir => {
+            app.permFolder = permDir;
+            app.permFolderNativeURL = permDir.nativeURL;
+          },
+          err => {
+            console.warn("failed to create or open permanent image dir");
+          }
+        );
+      },
+      err => {
+        console.warn("We should not be getting an error yet");
+      }
+    );
   },
 
 };
 
 var iconPaquet = L.icon({
   iconUrl: '../img/markerPaquet.png',
-
   iconSize: [40, 40],
   iconAnchor: [22, 94],
   popupAnchor: [-3, -76]
@@ -123,7 +190,6 @@ var iconPaquet = L.icon({
 
 var iconRepartidor = L.icon({
   iconUrl: '../img/markerRepartidor.png',
-
   iconSize: [45, 55],
   iconAnchor: [22, 94],
   popupAnchor: [-3, -76]
@@ -134,8 +200,11 @@ var marker = null;
 
 var paquets = JSON.parse(localStorage.getItem("paquets"));
 
+/*img = document.getElementById('imatge');
+urlImatge = JSON.parse(paquets[0]).urlImg;
+console.log(urlImatge);
+img.src = urlImatge;*/
+
 // document.addEventListener('deviceready', app.init, false);
 
 document.addEventListener("DOMContentLoaded", app.init);
-
-

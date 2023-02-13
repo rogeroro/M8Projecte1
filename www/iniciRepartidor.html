@@ -6,11 +6,13 @@
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: file:"> -->
 
 
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/icons.css">
     <!-- <link rel="stylesheet" href ="css/leaflet.css"> -->
+    <script type="text/javascript" src="js/exif.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -30,18 +32,14 @@
         <a href="index.html" target="_parent"> <span class="icon-keyboard_arrow_left"></span></a>
         <div class="userIcons">
             <span class="icon-user"></span>
-            <h3>Nazar Yakovyna | Gestor</h3>
+            <h3>Repartidor</h3>
             <span class="icon-exit"></span>
         </div>
-
     </header>
 
     <main>
         <div id="mapa">
         </div>
-
-        <img src="" alt="" id="imatge">
-        
 
         <button type="button" class="llistar-paquets" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <span class="icon-package"></span>
@@ -61,7 +59,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
-                        <button type="button" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -71,5 +69,5 @@
 </body>
 
 </html>
-<script src="cordova.js"></script>
+<!-- <script src="cordova.js"></script> -->
 <script src="js/repartidor.js"></script>

@@ -7,10 +7,14 @@
     </author>
 
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <!-- <preference name="AndroidInsecureFileModeEnabled" value="true" /> -->
 
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+
+    <!-- <allow-navigation href="file:///*" />
+    <access origin="file:///*" /> -->
 
     <platform name="android">
         <preference name="SplashMaintainAspectRatio" value="true"/>

@@ -24,15 +24,12 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-geolocation": {},
-      "cordova-plugin-file": {
-        "ANDROIDX_WEBKIT_VERSION": "1.4.0"
-      },
+      "cordova-plugin-file": {},
       "cordova-plugin-photos": {},
+      "phonegap-plugin-barcodescanner": {},
+      "cordova-plugin-compat": {},
       "cordova-plugin-camera": {
         "ANDROIDX_CORE_VERSION": "1.6.+"
-      },
-      "phonegap-plugin-barcodescanner": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
       }
     },
     "platforms": [
