@@ -6,10 +6,10 @@ var app = {
   permFile: null,
 
   init: function () {
+    app.obtenirPosicio();
     app.llistarPaquets();
-    //app.obtenirPosicio();
 
-    //app.getPermFolder();
+    app.getPermFolder();
 
     selectors = document.querySelectorAll('.selector-entrega');
     selectors.forEach(selector => {
@@ -25,23 +25,32 @@ var app = {
   },
 
   obtenirPosicio: function () {
+    console.log("OBTENIR");
+    map = L.map('mapa', {zoomControl: false});
+    marker = null;
     navigator.geolocation.watchPosition(
       (position) => {
-        if (marker !== null) {
-          map.removeLayer(marker);
-        }
+        app.borrarMarker(marker, map);
         map.setView([position.coords.latitude, position.coords.longitude], 18);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
+          maxZoom: 18,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
         marker = L.marker([position.coords.latitude, position.coords.longitude], { icon: iconRepartidor }).addTo(map);
         marker.bindPopup("<h3>Estic aqui!</h3>");
       },
       (error) => {
-      },
-      { enableHighAccuracy: true });
+        console.log(error);
+      });
+  },
+
+  borrarMarker: function(marker, map) {
+    console.log(marker);
+    if (marker != null) {
+      map.removeLayer(marker);
+      console.log("borrar");
+    }
   },
   getPaquetById: async function (codiPaquet) {
     return new Promise((resolve) => {
@@ -56,12 +65,29 @@ var app = {
 
   activarImatge: async function (e) {
     let paquetSeleccionat = e.target.closest('div').id;
-    console.log(await app.getPaquetById(paquetSeleccionat));
+    let paquet = await app.getPaquetById(paquetSeleccionat);
+    let estat = "";
+    console.log(e.target.value);
     if (e.target.value == 2) {
       e.target.nextElementSibling.classList.remove('hidden');
+      estat = "entregat";
+      
     } else {
       e.target.nextElementSibling.classList.add('hidden');
+      estat = "no entregat";
     }
+
+    let i = 0;
+    paquets.forEach(p => {
+      p = JSON.parse(p);
+      if (p.codi === paquet.codi) {
+        paquet.estat = estat;
+        paquets[i] = JSON.stringify(paquet);
+      }
+      i++;
+    });
+
+    
   },
   ferImatgeEntrega: function (e) {
     if (e.target.classList.contains('icon-camera')) {
@@ -93,6 +119,25 @@ var app = {
   },
   guardarImatge: function (paquet) {
     let fileName = paquet.codi + ".jpg";
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        paquet.onEsVaEntr = position.coords.latitude + "/" + position.coords.longitude;
+        console.log(paquet.onEsVaEntr);
+        let i = 0;
+        paquets.forEach(p => {
+          p = JSON.parse(p);
+          if (p.codi === paquet.codi) {
+            paquets[i] = JSON.stringify(paquet);
+          }
+          i++;
+        });
+        app.guardarCanvis;
+        
+      },
+      (error) => {
+      },
+      { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
 
     resolveLocalFileSystemURL(
       app.tempURL,
@@ -129,6 +174,7 @@ var app = {
   },
 
   llistarPaquets: function () {
+    if (paquets != null) {
     let divPaquets = document.querySelector('.llista-paquets-div');
 
     paquets.forEach(p => {
@@ -147,13 +193,14 @@ var app = {
                                 </select>
                                 <span class="icon-camera col-2 ${hidden}"></span>
                             </div>`;
-      //app.afegirMarkerPaquet(paquet);
+      app.afegirMarkerPaquet(paquet);
     });
+    }
   },
 
   afegirMarkerPaquet: function (paquet) {
     let coordenades = paquet.coordenades.split('/');
-    markerPaquet = L.marker([coordenades[0], coordenades[1]], { icon: iconPaquet }).addTo(map);
+    markerPaquet = L.marker(["41", "1"], { icon: iconPaquet }).addTo(map);
     markerPaquet.bindPopup(`<h3>${paquet.codi}</h3><p>${paquet.nom}</p>`);
   },
   getPermFolder: function () {
@@ -169,12 +216,11 @@ var app = {
             app.permFolderNativeURL = permDir.nativeURL;
           },
           err => {
-            console.warn("failed to create or open permanent image dir");
+            console.warn("Error al crear el directori");
           }
         );
       },
       err => {
-        console.warn("We should not be getting an error yet");
       }
     );
   },
@@ -195,16 +241,8 @@ var iconRepartidor = L.icon({
   popupAnchor: [-3, -76]
 });
 
-var map = L.map('mapa');
-var marker = null;
-
 var paquets = JSON.parse(localStorage.getItem("paquets"));
 
-/*img = document.getElementById('imatge');
-urlImatge = JSON.parse(paquets[0]).urlImg;
-console.log(urlImatge);
-img.src = urlImatge;*/
+document.addEventListener('deviceready', app.init, false);
 
-// document.addEventListener('deviceready', app.init, false);
-
-document.addEventListener("DOMContentLoaded", app.init);
+// document.addEventListener("DOMContentLoaded", app.init);

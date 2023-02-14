@@ -38,4 +38,5 @@ let app = {
   },
 };
 
-document.addEventListener("DOMContentLoaded", app.init);
+document.addEventListener('deviceready', app.init, false);
+// document.addEventListener("DOMContentLoaded", app.init);
